@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NFT Marketplace
 
 ## Technology Stack & Tools
@@ -46,3 +47,6 @@ License
 ----
 MIT
 
+=======
+# DigitalMint_Marketplace
+>>>>>>> d911c29537aa28b4451069e9930062cceec98e05
