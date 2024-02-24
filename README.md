@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# NFT Marketplace
+# Digital Mint Marketplace Marketplace
 
 ## Technology Stack & Tools
 
@@ -7,7 +6,7 @@
 - Javascript (React & Testing)
 - [Ethers](https://docs.ethers.io/v5/) (Blockchain Interaction)
 - [Hardhat](https://hardhat.org/) (Development Framework)
-- [Ipfs](https://ipfs.io/) (Metadata storage)
+- [pinata Ipfs](https://www.pinata.cloud/) (Metadata storage)
 - [React routers](https://v5.reactrouter.com/) (Navigational components)
 
 ## Requirements For Initial Setup
@@ -33,20 +32,11 @@ $ npx hardhat node
 - Connect your metamask to hardhat blockchain, network 127.0.0.1:8545.
 - If you have not added hardhat to the list of networks on your metamask, open up a browser, click the fox icon, then click the top center dropdown button that lists all the available networks then click add networks. A form should pop up. For the "Network Name" field enter "Hardhat". For the "New RPC URL" field enter "http://127.0.0.1:8545". For the chain ID enter "31337". Then click save.  
 
-
-### 5. Migrate Smart Contracts
 `npx hardhat run src/backend/scripts/deploy.js --network localhost`
 
-### 6. Run Tests
 `$ npx hardhat test`
 
-### 7. Launch Frontend
 `$ npm run start`
 
-License
-----
-MIT
 
-=======
-# DigitalMint_Marketplace
->>>>>>> d911c29537aa28b4451069e9930062cceec98e05
+
