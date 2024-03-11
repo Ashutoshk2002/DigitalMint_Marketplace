@@ -61,6 +61,9 @@ const Home = ({ marketplace, nft }) => {
                     <Card.Text>
                       {item.description}
                     </Card.Text>
+                    <Card.Text>
+                      {item.itemId._hex}
+                    </Card.Text>
                   </Card.Body>
                   <Card.Footer>
                     <div className='d-grid'>

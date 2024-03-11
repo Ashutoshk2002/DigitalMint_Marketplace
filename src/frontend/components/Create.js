@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ethers } from "ethers"
 import { Row, Form, Button } from 'react-bootstrap'
 import axios from "axios"
@@ -8,6 +9,7 @@ const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 // const pinata = pinataSDK('a1496898443a0c32596a', 'cef34f14216f5e1067cfcf08c035cf787c3e938c837708915ba77804ea66aee3');
 
 const Create = ({ marketplace, nft }) => {
+  const navigate = useNavigate();
   const [image, setImage] = useState('')
   const [price, setPrice] = useState(null)
   const [name, setName] = useState('')
@@ -91,7 +93,15 @@ const Create = ({ marketplace, nft }) => {
     try {
       // Upload data to Pinata
       const ipfsHash = await uploadToPinataJson(JSON.stringify({ image, price, name, description }));
-      await mintThenList(ipfsHash);
+
+      try {
+        await mintThenList(ipfsHash);
+        navigate('/');
+      } catch (error) {
+        console.log(error);
+      }
+
+
       console.log("I am executing")
     } catch (error) {
       console.log("Pinata upload error: ", error);
