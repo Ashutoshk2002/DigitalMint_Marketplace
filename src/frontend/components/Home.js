@@ -8,7 +8,7 @@ const Home = ({ marketplace, nft }) => {
 
   const navigate = useNavigate();
 
-  const [transaction, setTransaction] = useState({})
+  const [transaction, setTransaction] = useState([])
 
   const loadMarketplaceItems = async () => {
     // Load all unsold items
@@ -40,12 +40,18 @@ const Home = ({ marketplace, nft }) => {
   }
 
   const buyMarketItem = async (item) => {
-    const data = await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
-    console.log(data);
-    setTransaction(data);
-    console.log(transaction)
-    navigate('/transactions', { state: transaction });
-    loadMarketplaceItems()
+    try {
+      const data = await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+      console.log(data);
+      localStorage.setItem('transaction', data);
+      // setTransaction((prev) => [...prev, data]);
+      console.log(transaction)
+      loadMarketplaceItems()
+      navigate('/transactions',);
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   useEffect(() => {

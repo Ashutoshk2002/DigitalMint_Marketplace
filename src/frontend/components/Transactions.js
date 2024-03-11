@@ -3,17 +3,19 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { useLocation } from 'react-router-dom';
 
 function Transactions () {
-    const [transactions, setTransactions] = useState({});
+    const [transactions, setTransactions] = useState([]);
     const location = useLocation();
 
     // Use useEffect to set the transactions state when the location state changes
     React.useEffect(() => {
-        if (location.state) {
-            setTransactions(location.state);
-        }
+        const data = localStorage.getItem('transaction');
+
+        setTransactions(data);
+        console.log(data);
     }, [location.state]);
 
     return (
+
         <TableContainer component={Paper}>
             <Table aria-label="transaction table">
                 <TableHead>
@@ -23,10 +25,13 @@ function Transactions () {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>Block Hash</TableCell>
-                        <TableCell>{transactions.blockHash}</TableCell>
-                    </TableRow>
+                    {transactions.map((value, index) => (
+                        <TableRow key={index}>
+                            <TableCell>Block Hash</TableCell>
+                            <TableCell>{value.transationsHash}</TableCell>
+                        </TableRow>
+                    ))}
+
                 </TableBody>
             </Table>
         </TableContainer>
