@@ -17,6 +17,7 @@ import { ethers } from "ethers"
 import { Spinner } from 'react-bootstrap'
 
 import './App.css';
+import Transactions from "./Transactions.js";
 
 function App () {
   const [loading, setLoading] = useState(true)
@@ -76,6 +77,9 @@ function App () {
               } />
               <Route path="/my-purchases" element={
                 <MyPurchases marketplace={marketplace} nft={nft} account={account} />
+              } />
+              <Route path="/transactions" element={
+                <Transactions />
               } />
             </Routes>
           )}
