@@ -135,11 +135,11 @@ const Create = ({ marketplace, nft }) => {
                 name="file"
                 onChange={uploadToIPFS}
               />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
+              <Form.Control onChange={(e) => setName(e.target.value)} size="sm" required type="text" placeholder="Name" />
+              <Form.Control onChange={(e) => setDescription(e.target.value)} size="sm" required as="textarea" placeholder="Description" />
+              <Form.Control onChange={(e) => setPrice(e.target.value)} size="sm" required type="number" placeholder="Price in ETH" />
               <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
+                <Button onClick={createNFT} variant="primary" size="sm">
                   Create & List NFT!
                 </Button>
               </div>

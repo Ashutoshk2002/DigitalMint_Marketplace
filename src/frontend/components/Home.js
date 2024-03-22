@@ -43,8 +43,15 @@ const Home = ({ marketplace, nft }) => {
     try {
       const data = await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
       console.log(data);
-      localStorage.setItem('transaction', data);
-      // setTransaction((prev) => [...prev, data]);
+
+      const existingTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+      // Append the new transaction to the existing array
+      const updatedTransactions = [...existingTransactions, data];
+
+      // Store the updated array back in localStorage
+      localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+
       console.log(transaction)
       loadMarketplaceItems()
       navigate('/transactions',);
@@ -69,20 +76,20 @@ const Home = ({ marketplace, nft }) => {
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
             {items.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
-                <Card>
-                  <Card.Img variant="top" src={item.image} />
+                <Card className='border border-secondary'>
+                  <Card.Img variant="top" src={item.image} className='border-bottom border-secondary border-2 p-1' />
                   <Card.Body color="secondary">
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>
+                    <Card.Title className='mt-0 pt-0'>{item.name}</Card.Title>
+                    <Card.Text className='mb-0'>
                       {item.description}
                     </Card.Text>
-                    <Card.Text>
+                    <Card.Text className='pt-0'>
                       {item.itemId._hex}
                     </Card.Text>
                   </Card.Body>
                   <Card.Footer>
                     <div className='d-grid'>
-                      <Button onClick={() => buyMarketItem(item)} variant="primary" size="lg">
+                      <Button onClick={() => buyMarketItem(item)} variant="primary" size="sm">
                         Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
                       </Button>
                     </div>
