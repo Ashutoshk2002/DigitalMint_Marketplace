@@ -1,35 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { useLocation } from 'react-router-dom';
 
 function Transactions () {
-    const [transactions, setTransactions] = useState({});
-    const location = useLocation();
+    const [transactions, setTransactions] = useState([]);
 
-    // Use useEffect to set the transactions state when the location state changes
-    React.useEffect(() => {
-        if (location.state) {
-            setTransactions(location.state);
+
+    useEffect(() => {
+        const data = localStorage.getItem('transactions');
+        console.log(JSON.parse(data));
+        if (data) {
+            const parsedData = JSON.parse(data);
+            setTransactions(parsedData);
+            // console.log(parsedData);
         }
-    }, [location.state]);
+    }, []);
 
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="transaction table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Attribute</TableCell>
-                        <TableCell>Value</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow>
-                        <TableCell>Block Hash</TableCell>
-                        <TableCell>{transactions.blockHash}</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <div style={{ maxWidth: '90%', margin: 'auto', paddingTop: '2rem' }}>
+            <TableContainer component={Paper} style={{ border: '1px solid #ddd' }}>
+                <Table aria-label="transaction table" size='small' >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Serial No</TableCell>
+                            <TableCell>Block Hash</TableCell>
+                            <TableCell>From</TableCell>
+                            <TableCell>To</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {transactions?.map((value, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{value.blockHash}</TableCell>
+                                <TableCell>{value.from}</TableCell>
+                                <TableCell>{value.to}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     );
 }
 
