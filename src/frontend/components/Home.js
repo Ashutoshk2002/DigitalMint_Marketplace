@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
-
+import { useNavigate } from 'react-router'
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true)
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([]);
+
+  const navigate = useNavigate();
+
+  const [transaction, setTransaction] = useState({})
+
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount()
@@ -35,7 +40,11 @@ const Home = ({ marketplace, nft }) => {
   }
 
   const buyMarketItem = async (item) => {
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+    const data = await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+    console.log(data);
+    setTransaction(data);
+    console.log(transaction)
+    navigate('/transactions', { state: transaction });
     loadMarketplaceItems()
   }
 
