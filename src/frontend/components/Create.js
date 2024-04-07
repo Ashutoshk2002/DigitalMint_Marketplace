@@ -125,6 +125,7 @@ const Create = ({ marketplace, nft }) => {
     await (await marketplace.makeItem(nft.address, id, listingPrice)).wait()
   }
   return (
+<<<<<<< HEAD
     // <div className="container-fluid mt-5">
     //   <div className="row">
     //     <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
@@ -176,6 +177,28 @@ const Create = ({ marketplace, nft }) => {
             <Button onClick={createNFT}  className='button-9 btn-hover' size="lg">
               Create & List NFT!
             </Button>
+=======
+    <div className="container-fluid mt-5">
+      <div className="row">
+        <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+          <div className="content mx-auto">
+            <Row className="g-4">
+              <Form.Control
+                type="file"
+                required
+                name="file"
+                onChange={uploadToIPFS}
+              />
+              <Form.Control onChange={(e) => setName(e.target.value)} size="sm" required type="text" placeholder="Name" />
+              <Form.Control onChange={(e) => setDescription(e.target.value)} size="sm" required as="textarea" placeholder="Description" />
+              <Form.Control onChange={(e) => setPrice(e.target.value)} size="sm" required type="number" placeholder="Price in ETH" />
+              <div className="d-grid px-0">
+                <Button onClick={createNFT} variant="primary" size="sm">
+                  Create & List NFT!
+                </Button>
+              </div>
+            </Row>
+>>>>>>> 08435c223fcf4b6263f2601cb873cc8a6c9fda5d
           </div>
         </Form>
       </div>

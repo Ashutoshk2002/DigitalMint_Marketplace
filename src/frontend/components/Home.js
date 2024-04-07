@@ -8,7 +8,11 @@ const Home = ({ marketplace, nft }) => {
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const [transaction, setTransaction] = useState({});
+=======
+  const [transaction, setTransaction] = useState([])
+>>>>>>> 08435c223fcf4b6263f2601cb873cc8a6c9fda5d
 
   const loadMarketplaceItems = async () => {
     // Load all unsold items
@@ -40,6 +44,7 @@ const Home = ({ marketplace, nft }) => {
   };
 
   const buyMarketItem = async (item) => {
+<<<<<<< HEAD
     const data = await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
@@ -49,6 +54,28 @@ const Home = ({ marketplace, nft }) => {
     navigate("/transactions", { state: transaction });
     loadMarketplaceItems();
   };
+=======
+    try {
+      const data = await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+      console.log(data);
+
+      const existingTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+      // Append the new transaction to the existing array
+      const updatedTransactions = [...existingTransactions, data];
+
+      // Store the updated array back in localStorage
+      localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+
+      console.log(transaction)
+      loadMarketplaceItems()
+      navigate('/transactions',);
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+>>>>>>> 08435c223fcf4b6263f2601cb873cc8a6c9fda5d
 
   useEffect(() => {
     loadMarketplaceItems();
@@ -80,9 +107,10 @@ const Home = ({ marketplace, nft }) => {
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
             {items.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
-                <Card>
-                  <Card.Img variant="top" src={item.image} />
+                <Card className='border border-secondary'>
+                  <Card.Img variant="top" src={item.image} className='border-bottom border-secondary border-2 p-1' />
                   <Card.Body color="secondary">
+<<<<<<< HEAD
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Text>{item.description}</Card.Text>
                     <Card.Text>{item.itemId._hex}</Card.Text>
@@ -94,6 +122,19 @@ const Home = ({ marketplace, nft }) => {
                         variant="primary"
                         size="lg"
                       >
+=======
+                    <Card.Title className='mt-0 pt-0'>{item.name}</Card.Title>
+                    <Card.Text className='mb-0'>
+                      {item.description}
+                    </Card.Text>
+                    <Card.Text className='pt-0'>
+                      {item.itemId._hex}
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <div className='d-grid'>
+                      <Button onClick={() => buyMarketItem(item)} variant="primary" size="sm">
+>>>>>>> 08435c223fcf4b6263f2601cb873cc8a6c9fda5d
                         Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
                       </Button>
                     </div>
