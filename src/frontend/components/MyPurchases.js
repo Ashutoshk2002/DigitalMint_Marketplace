@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
-import { Row, Col, Card } from 'react-bootstrap'
+import { Row, Col, Card,Spinner } from 'react-bootstrap'
 
 export default function MyPurchases({ marketplace, nft, account }) {
   const [loading, setLoading] = useState(true)
@@ -39,7 +39,21 @@ export default function MyPurchases({ marketplace, nft, account }) {
   }, [])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
-      <h2>Loading...</h2>
+      <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "80vh",
+          }}
+        >
+          <Spinner
+            animation="grow"
+            variant="primary"
+            style={{ display: "flex" }}
+          />
+          <p className="mx-3 my-0">Purchases Loading...🚀</p>
+        </div>
     </main>
   )
   return (
@@ -59,7 +73,7 @@ export default function MyPurchases({ marketplace, nft, account }) {
         </div>
         : (
           <main style={{ padding: "1rem 0" }}>
-            <h2>No purchases</h2>
+            <h2 >No purchases</h2>
           </main>
         )}
     </div>

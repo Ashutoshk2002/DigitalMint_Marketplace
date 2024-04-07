@@ -4,6 +4,7 @@ import { ethers } from "ethers"
 import { Row, Form, Button } from 'react-bootstrap'
 import axios from "axios"
 import { create as ipfsHttpClient } from 'ipfs-http-client'
+import './Create.css'
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 // const pinataSDK = require('@pinata/sdk');
 // const pinata = pinataSDK('a1496898443a0c32596a', 'cef34f14216f5e1067cfcf08c035cf787c3e938c837708915ba77804ea66aee3');
@@ -124,30 +125,64 @@ const Create = ({ marketplace, nft }) => {
     await (await marketplace.makeItem(nft.address, id, listingPrice)).wait()
   }
   return (
-    <div className="container-fluid mt-5">
-      <div className="row">
-        <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
-              <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
-                </Button>
-              </div>
-            </Row>
+    // <div className="container-fluid mt-5">
+    //   <div className="row">
+    //     <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+    //       <div className="content mx-auto">
+    //         <Row className="g-4">
+    //           <Form.Control
+    //             type="file"
+    //             required
+    //             name="file"
+    //             onChange={uploadToIPFS}
+    //           />
+    //           <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
+    //           <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
+    //           <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
+    //           <div className="d-grid px-0">
+    //             <Button onClick={createNFT} variant="primary" size="lg">
+    //               Create & List NFT!
+    //             </Button>
+    //           </div>
+    //         </Row>
+    //       </div>
+    //     </main>
+    //   </div>
+    // </div>
+    
+<div className="container-fluid mt-5">
+<div className="row">
+  <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+    <div className="content mx-auto">
+      <div className="card p-4 shadow">
+        <Form>
+          <Form.Group className="mb-3" controlId="formFile">
+            <Form.Label>Upload File</Form.Label>
+            <Form.Control type="file" required name="file" onChange={uploadToIPFS} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formDescription">
+            <Form.Label>Description</Form.Label>
+            <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formPrice">
+            <Form.Label>Price in ETH</Form.Label>
+            <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price" />
+          </Form.Group>
+          <div className="d-grid">
+            <Button onClick={createNFT}  className='button-9 btn-hover' size="lg">
+              Create & List NFT!
+            </Button>
           </div>
-        </main>
+        </Form>
       </div>
     </div>
+  </main>
+</div>
+</div>
   );
 }
 
