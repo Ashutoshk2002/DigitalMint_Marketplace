@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
@@ -70,6 +70,21 @@ const Home = ({ marketplace, nft }) => {
     return (
       <main style={{ padding: "1rem 0" }}>
         <h2>Loading...</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "80vh",
+          }}
+        >
+          <Spinner
+            animation="grow"
+            variant="primary"
+            style={{ display: "flex" }}
+          />
+          <p className="mx-3 my-0">Loading...🚀</p>
+        </div>
       </main>
     );
   return (
@@ -85,10 +100,10 @@ const Home = ({ marketplace, nft }) => {
                     src={item.image}
                     className="border-bottom border-secondary border-2 p-1"
                   />
-                  <Card.Body color="secondary">
-                    <Card.Title className="mt-0 pt-0">{item.name}</Card.Title>
-                    <Card.Text className="mb-0">{item.description}</Card.Text>
-                    <Card.Text className="pt-0">{item.itemId._hex}</Card.Text>
+                  <Card.Body>
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Text>{item.description}</Card.Text>
+                    <Card.Text>{item.itemId}</Card.Text>
                   </Card.Body>
                   <Card.Footer>
                     <div className="d-grid">
@@ -114,4 +129,5 @@ const Home = ({ marketplace, nft }) => {
     </div>
   );
 };
+
 export default Home;

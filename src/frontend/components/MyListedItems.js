@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
-import { Row, Col, Card } from 'react-bootstrap'
+import { Row, Col, Card ,Spinner} from 'react-bootstrap'
 
 function renderSoldItems (items) {
   return (
@@ -67,7 +67,21 @@ export default function MyListedItems ({ marketplace, nft, account }) {
   }, [])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
-      <h2>Loading...</h2>
+       <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "80vh",
+          }}
+        >
+          <Spinner
+            animation="grow"
+            variant="primary"
+            style={{ display: "flex" }}
+          />
+          <p className="mx-3 my-0">Loading Listed Items...🚀</p>
+        </div>
     </main>
   )
   return (

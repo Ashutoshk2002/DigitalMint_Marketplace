@@ -11,7 +11,7 @@ import NFTAddress from "../contractsData/NFT-address.json";
 import { useState } from "react";
 import { ethers } from "ethers";
 import { Spinner } from "react-bootstrap";
-
+import toast, { Toaster } from "react-hot-toast";
 import "./App.css";
 import Transactions from "./Transactions.js";
 
@@ -20,13 +20,11 @@ function App() {
   const [account, setAccount] = useState(null);
   const [nft, setNFT] = useState({});
   const [marketplace, setMarketplace] = useState({});
-
   // MetaMask Login/Connect
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-
     setAccount(accounts[0]);
     // Get provider from Metamask
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -41,10 +39,8 @@ function App() {
       setAccount(accounts[0]);
       await web3Handler();
     });
-
     loadContracts(signer);
   };
-
   const loadContracts = async (signer) => {
     // Get deployed copies of contracts
     const marketplace = new ethers.Contract(
@@ -55,6 +51,7 @@ function App() {
     setMarketplace(marketplace);
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer);
     setNFT(nft);
+    toast.success("Account Connected Successfully", { position: "top-center" });
     setLoading(false);
   };
 
@@ -74,8 +71,12 @@ function App() {
                 minHeight: "80vh",
               }}
             >
-              <Spinner animation="border" style={{ display: "flex" }} />
-              <p className="mx-3 my-0">Awaiting Metamask Connection...</p>
+              <Spinner
+                animation="grow"
+                variant="primary"
+                style={{ display: "flex" }}
+              />
+              <p className="mx-3 my-0">Awaiting Metamask Connection...🚀</p>
             </div>
           ) : (
             <Routes>
@@ -112,6 +113,7 @@ function App() {
           )}
         </div>
       </div>
+      <Toaster />
     </BrowserRouter>
   );
 }
