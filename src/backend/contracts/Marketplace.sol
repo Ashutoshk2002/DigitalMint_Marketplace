@@ -47,33 +47,37 @@ contract Marketplace is ReentrancyGuard {
         feePercent = _feePercent;
     }
 
-    // Make item to offer on the marketplace
-    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
-        require(_price > 0, "Price must be greater than zero");
-        // increment itemCount
-        itemCount ++;
-        // transfer nft
-        _nft.transferFrom(msg.sender, address(this), _tokenId);
-        // add new item to items mapping
-        items[itemCount] = Item (
-            itemCount,
-            _nft,
-            _tokenId,
-            _price,
-            payable(msg.sender),
-            false
-        );
-        // emit Offered event
-        emit Offered(
-            itemCount,
-            address(_nft),
-            _tokenId,
-            _price,
-            msg.sender
-        );
-    }
+    
+
+    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant returns (uint, address, address) {
+    require(_price > 0, "Price must be greater than zero");
+    // increment itemCount
+    itemCount ++;
+    // transfer nft
+    _nft.transferFrom(msg.sender, address(this), _tokenId);
+    // add new item to items mapping
+    items[itemCount] = Item (
+        itemCount,
+        _nft,
+        _tokenId,
+        _price,
+        payable(msg.sender),
+        false
+    );
+    // emit Offered event
+    emit Offered(
+        itemCount,
+        address(_nft),
+        _tokenId,
+        _price,
+        msg.sender
+    );
+    return (itemCount, msg.sender, address(this));
+}
+
 
     function purchaseItem(uint _itemId) external payable nonReentrant {
+        
         uint _totalPrice = getTotalPrice(_itemId);
         Item storage item = items[_itemId];
         require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
@@ -84,8 +88,11 @@ contract Marketplace is ReentrancyGuard {
         feeAccount.transfer(_totalPrice - item.price);
         // update item to sold
         item.sold = true;
+
         // transfer nft to buyer
         item.nft.transferFrom(address(this), msg.sender, item.tokenId);
+
+
         // emit Bought event
         emit Bought(
             _itemId,
