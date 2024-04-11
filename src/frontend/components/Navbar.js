@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
-import market from "./market.png";
+import shop from "./shop.png";
 
 import "./Navbar.css";
 const Navigation = ({ web3Handler, account }) => {
   return (
     <Navbar expand="lg" className="navbar" variant="light">
       <Container>
-        <Navbar.Brand href="http://www.dappuniversity.com/bootcamp">
-          <img src={market} width="40" height="40" className="" alt="" />
+        <Navbar.Brand>
+          <img src={shop} width="40" height="40" className="" alt="" />
           &nbsp; Digital Mint Marketplace
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

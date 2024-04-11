@@ -5,6 +5,9 @@ import { Row, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import "./Create.css";
+import { Line } from "rc-progress";
+import CircularWithValueLabel from "./CircularProgressWithLabel";
+
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 // const pinataSDK = require('@pinata/sdk');
 // const pinata = pinataSDK('a1496898443a0c32596a', 'cef34f14216f5e1067cfcf08c035cf787c3e938c837708915ba77804ea66aee3');
@@ -14,6 +17,7 @@ const Create = ({ marketplace, nft }) => {
   const [image, setImage] = useState("");
   const [price, setPrice] = useState(null);
   const [name, setName] = useState("");
+  const [progressBar, setProgressBar] = useState(false);
   const [description, setDescription] = useState("");
   const PINATA_API_KEY = "2c6d3858d619c7e67f7a";
   const PINATA_API_SECRET =
@@ -99,6 +103,7 @@ const Create = ({ marketplace, nft }) => {
   // }
 
   const createNFT = async () => {
+    setProgressBar(true);
     if (!image || !price || !name || !description) return;
     try {
       // Upload data to Pinata
@@ -135,52 +140,55 @@ const Create = ({ marketplace, nft }) => {
     await (await marketplace.makeItem(nft.address, id, listingPrice)).wait();
   };
   return (
-    <div className="container-fluid mt-5">
-      <div className="row">
-        <main
-          role="main"
-          className="col-lg-12 mx-auto"
-          style={{ maxWidth: "1000px" }}
-        >
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control
-                onChange={(e) => setName(e.target.value)}
-                size="sm"
-                required
-                type="text"
-                placeholder="Name"
-              />
-              <Form.Control
-                onChange={(e) => setDescription(e.target.value)}
-                size="sm"
-                required
-                as="textarea"
-                placeholder="Description"
-              />
-              <Form.Control
-                onChange={(e) => setPrice(e.target.value)}
-                size="sm"
-                required
-                type="number"
-                placeholder="Price in ETH"
-              />
-              <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="sm">
-                  Create & List NFT!
-                </Button>
-              </div>
-            </Row>
-          </div>
-        </main>
+    <>
+      {progressBar && <CircularWithValueLabel />}
+      <div className="container-fluid mt-5">
+        <div className="row">
+          <main
+            role="main"
+            className="col-lg-12 mx-auto"
+            style={{ maxWidth: "1000px" }}
+          >
+            <div className="content mx-auto">
+              <Row className="g-4">
+                <Form.Control
+                  type="file"
+                  required
+                  name="file"
+                  onChange={uploadToIPFS}
+                />
+                <Form.Control
+                  onChange={(e) => setName(e.target.value)}
+                  size="sm"
+                  required
+                  type="text"
+                  placeholder="Name"
+                />
+                <Form.Control
+                  onChange={(e) => setDescription(e.target.value)}
+                  size="sm"
+                  required
+                  as="textarea"
+                  placeholder="Description"
+                />
+                <Form.Control
+                  onChange={(e) => setPrice(e.target.value)}
+                  size="sm"
+                  required
+                  type="number"
+                  placeholder="Price in ETH"
+                />
+                <div className="d-grid px-0">
+                  <Button onClick={createNFT} variant="primary" size="sm">
+                    Create & List NFT!
+                  </Button>
+                </div>
+              </Row>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

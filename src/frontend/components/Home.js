@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Row, Col, Card, Button } from "react-bootstrap";
+
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-
-  const navigate = useNavigate();
-
-  const [transaction, setTransaction] = useState([]);
-
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
@@ -40,27 +35,10 @@ const Home = ({ marketplace, nft }) => {
   };
 
   const buyMarketItem = async (item) => {
-    try {
-      const data = await (
-        await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
-      ).wait();
-      console.log(data);
-
-      const existingTransactions =
-        JSON.parse(localStorage.getItem("transactions")) || [];
-
-      // Append the new transaction to the existing array
-      const updatedTransactions = [...existingTransactions, data];
-
-      // Store the updated array back in localStorage
-      localStorage.setItem("transactions", JSON.stringify(updatedTransactions));
-
-      console.log(transaction);
-      loadMarketplaceItems();
-      navigate("/transactions");
-    } catch (error) {
-      console.log(error);
-    }
+    await (
+      await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
+    ).wait();
+    loadMarketplaceItems();
   };
 
   useEffect(() => {
@@ -70,21 +48,6 @@ const Home = ({ marketplace, nft }) => {
     return (
       <main style={{ padding: "1rem 0" }}>
         <h2>Loading...</h2>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "80vh",
-          }}
-        >
-          <Spinner
-            animation="grow"
-            variant="primary"
-            style={{ display: "flex" }}
-          />
-          <p className="mx-3 my-0">Loading...🚀</p>
-        </div>
       </main>
     );
   return (
@@ -94,23 +57,23 @@ const Home = ({ marketplace, nft }) => {
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
             {items.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
-                <Card className="border border-secondary">
+                <Card>
                   <Card.Img
                     variant="top"
+                    width={"200px"}
+                    height={"300px"}
                     src={item.image}
-                    className="border-bottom border-secondary border-2 p-1"
                   />
-                  <Card.Body>
+                  <Card.Body color="secondary">
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Text>{item.description}</Card.Text>
-                    <Card.Text>{item.itemId}</Card.Text>
                   </Card.Body>
                   <Card.Footer>
                     <div className="d-grid">
                       <Button
                         onClick={() => buyMarketItem(item)}
                         variant="primary"
-                        size="sm"
+                        size="lg"
                       >
                         Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
                       </Button>
@@ -129,5 +92,4 @@ const Home = ({ marketplace, nft }) => {
     </div>
   );
 };
-
 export default Home;

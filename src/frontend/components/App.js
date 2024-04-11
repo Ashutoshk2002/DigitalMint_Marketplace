@@ -15,12 +15,15 @@ import toast, { Toaster } from "react-hot-toast";
 import "./App.css";
 import Transactions from "./Transactions.js";
 
+import { Line, Circle } from "rc-progress";
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState(null);
   const [nft, setNFT] = useState({});
   const [marketplace, setMarketplace] = useState({});
   // MetaMask Login/Connect
+
   const web3Handler = async () => {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
