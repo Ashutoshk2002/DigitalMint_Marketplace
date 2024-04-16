@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navigation from "./Navbar";
+import Navigation from "./Navbar.js";
 import Home from "./Home.js";
 import Create from "./Create.js";
 import MyListedItems from "./MyListedItems.js";
@@ -14,8 +14,6 @@ import { Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import "./App.css";
 import Transactions from "./Transactions.js";
-
-import { Line, Circle } from "rc-progress";
 
 function App() {
   const [loading, setLoading] = useState(true);

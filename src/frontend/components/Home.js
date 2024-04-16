@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
-
+import toast from "react-hot-toast";
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
@@ -38,6 +40,8 @@ const Home = ({ marketplace, nft }) => {
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
+    toast.success("Token Purchase Successful!", { position: "top-center" });
+    navigate("/my-purchases");
     loadMarketplaceItems();
   };
 

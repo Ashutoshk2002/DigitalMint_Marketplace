@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import shop from "./shop.png";
-
+import logo from "./logo2.png";
 import "./Navbar.css";
 const Navigation = ({ web3Handler, account }) => {
   return (
@@ -9,7 +9,7 @@ const Navigation = ({ web3Handler, account }) => {
       <Container>
         <Navbar.Brand>
           <img src={shop} width="40" height="40" className="" alt="" />
-          &nbsp; Digital Mint Marketplace
+          &nbsp; <img src={logo} width="auto" height="70px" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

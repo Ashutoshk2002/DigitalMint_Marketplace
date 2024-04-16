@@ -7,7 +7,7 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 import "./Create.css";
 import { Line } from "rc-progress";
 import CircularWithValueLabel from "./CircularProgressWithLabel";
-
+import toast from "react-hot-toast";
 const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 // const pinataSDK = require('@pinata/sdk');
 // const pinata = pinataSDK('a1496898443a0c32596a', 'cef34f14216f5e1067cfcf08c035cf787c3e938c837708915ba77804ea66aee3');
@@ -113,6 +113,9 @@ const Create = ({ marketplace, nft }) => {
 
       try {
         await mintThenList(ipfsHash);
+        toast.success("NFT Token Created Successfully", {
+          position: "top-center",
+        });
         navigate("/");
       } catch (error) {
         console.log(error);
