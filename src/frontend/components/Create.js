@@ -134,13 +134,29 @@ const Create = ({ marketplace, nft }) => {
     // get tokenId of new nft
     const id = await nft.tokenCount();
     // approve marketplace to spend nft
-    console.log("id", id);
     await (await nft.setApprovalForAll(marketplace.address, true)).wait();
     // add nft to marketplace
     const listingPrice = ethers.utils.parseEther(price.toString());
-    console.log("listingPrice", listingPrice);
 
-    await (await marketplace.makeItem(nft.address, id, listingPrice)).wait();
+    const transaction = await (
+      await marketplace.makeItem(nft.address, id, listingPrice)
+    ).wait();
+
+    // Define the new transaction object
+    const newTransaction = {
+      from: transaction.from,
+      to: transaction.to,
+      blockHash: transaction.blockHash,
+    };
+
+    // Retrieve the transactions array from local storage, if it exists
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+    // Add the new transaction to the transactions array
+    transactions.push(newTransaction);
+
+    // Store the updated transactions array back in local storage
+    localStorage.setItem("transactions", JSON.stringify(transactions));
   };
   return (
     <>

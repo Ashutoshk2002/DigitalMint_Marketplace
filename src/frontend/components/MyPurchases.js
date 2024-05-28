@@ -74,7 +74,11 @@ export default function MyPurchases({ marketplace, nft, account }) {
             {purchases.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
                 <Card className="border border-secondary p-2">
-                  <Card.Img variant="top" src={item.image} />
+                  <Card.Img
+                    variant="top"
+                    src={item.image}
+                    style={{ width: "200px", height: "250px" }}
+                  />
                   <Card.Footer>
                     {ethers.utils.formatEther(item.totalPrice)} ETH
                   </Card.Footer>

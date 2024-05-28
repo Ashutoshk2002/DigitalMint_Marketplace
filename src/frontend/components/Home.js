@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
-import toast from "react-hot-toast";
+
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const navigate = useNavigate();
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
@@ -37,11 +35,26 @@ const Home = ({ marketplace, nft }) => {
   };
 
   const buyMarketItem = async (item) => {
-    await (
+    const transaction = await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
-    toast.success("Token Purchase Successful!", { position: "top-center" });
-    navigate("/my-purchases");
+
+    // Define the new transaction object
+    const newTransaction = {
+      from: transaction.from,
+      to: transaction.to,
+      blockHash: transaction.blockHash,
+    };
+
+    // Retrieve the transactions array from local storage, if it exists
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+    // Add the new transaction to the transactions array
+    transactions.push(newTransaction);
+
+    // Store the updated transactions array back in local storage
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    console.log("trans", transaction);
     loadMarketplaceItems();
   };
 
@@ -64,9 +77,8 @@ const Home = ({ marketplace, nft }) => {
                 <Card>
                   <Card.Img
                     variant="top"
-                    width={"200px"}
-                    height={"300px"}
                     src={item.image}
+                    style={{ width: "240px", height: "300px" }}
                   />
                   <Card.Body color="secondary">
                     <Card.Title>{item.name}</Card.Title>
